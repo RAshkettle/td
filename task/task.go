@@ -3,7 +3,6 @@ package task
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"time"
@@ -121,9 +120,6 @@ func saveTasks() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(getFileLocation())
-	fmt.Println(string(jsonData))
-
 	// Save the tasks to a file
 	err = os.WriteFile(getFileLocation(), jsonData, 0644)
 	if err != nil {
