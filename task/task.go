@@ -113,6 +113,13 @@ func getSavedTasks() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Find the highest friendly id
+	for _, task := range Tasks {
+		if task.FriendlyId > currentFriendlyIdMax {
+			currentFriendlyIdMax = task.FriendlyId
+		}
+	}
 }
 
 func saveTasks() {
