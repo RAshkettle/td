@@ -22,7 +22,9 @@ USAGE: task delete <id>`,
 			fmt.Println("Please enter a valid task id.")
 			return
 		}
-		task.Delete(id)
+		tp := task.NewFileSystemPersistor()
+
+		task.Delete(id, tp)
 	},
 }
 

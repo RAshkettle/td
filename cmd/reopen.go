@@ -23,7 +23,9 @@ USAGE: task reopen <id>`,
 			fmt.Println("Please provide a valid task id")
 			return
 		}
-		task.ReOpen(id)
+		tp := task.NewFileSystemPersistor()
+
+		task.ReOpen(id, tp)
 	},
 }
 

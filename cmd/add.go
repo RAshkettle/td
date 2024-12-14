@@ -15,8 +15,9 @@ var addCmd = &cobra.Command{
   This is intentional to allow for multiple instances of the same task.
   USAGE:  td add task <description>`,
 	Run: func(cmd *cobra.Command, args []string) {
+		tp := task.NewFileSystemPersistor()
 		description := args[0]
-		task.Add(description)
+		task.Add(description, tp)
 	},
 }
 

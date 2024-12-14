@@ -14,7 +14,9 @@ var listCmd = &cobra.Command{
 	Short: "Display all Tasks",
 	Long:  `Lists all Tasks in the task list.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		task.List()
+		tp := task.NewFileSystemPersistor()
+
+		task.List(tp)
 		// Display this in a table using bubbletea
 		fmt.Println("ID\tDescription\tStatus")
 		for _, t := range task.Tasks {

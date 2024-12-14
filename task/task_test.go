@@ -7,9 +7,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type MemoryPersistor struct{}
+
+func NewMemoryPersistor() *MemoryPersistor {
+	return &MemoryPersistor{}
+}
+
+func (m *MemoryPersistor) saveTasks() {
+	// Do nothing
+}
+
+func (m *MemoryPersistor) getTasks() {
+	// Do nothing
+}
+
 func TestAdd(t *testing.T) {
-	PersistData = false
-	Add("Test Task")
+	mp := NewMemoryPersistor()
+	Add("Test Task", mp)
 	assert.Equal(t, 1, len(Tasks))
 	foundTask := false
 	for _, task := range Tasks {
@@ -24,10 +38,11 @@ func TestAdd(t *testing.T) {
 }
 
 func TestGetTaskByFriendlyId(t *testing.T) {
-	PersistData = false
-	Add("Test Task")
-	Add("Test Task 2")
-	Add("Test Task 3")
+	mp := NewMemoryPersistor()
+
+	Add("Test Task", mp)
+	Add("Test Task 2", mp)
+	Add("Test Task 3", mp)
 
 	task := getTaskByFriendlyId(2)
 	assert.Equal(t, "Test Task 2", task.Description)
@@ -36,11 +51,12 @@ func TestGetTaskByFriendlyId(t *testing.T) {
 }
 
 func TestCloseTask(t *testing.T) {
-	PersistData = false
-	Add("Test Task")
-	Add("Test Task 2")
-	Add("Test Task 3")
-	Close(1)
+	mp := NewMemoryPersistor()
+
+	Add("Test Task", mp)
+	Add("Test Task 2", mp)
+	Add("Test Task 3", mp)
+	Close(1, mp)
 	task := getTaskByFriendlyId(1)
 	assert.Equal(t, Completed, task.Status)
 	task = getTaskByFriendlyId(2)
@@ -50,13 +66,14 @@ func TestCloseTask(t *testing.T) {
 }
 
 func TestReopenTask(t *testing.T) {
-	PersistData = false
-	Add("Test Task")
-	Add("Test Task 2")
-	Add("Test Task 3")
-	Close(1)
-	Close(2)
-	ReOpen(1)
+	mp := NewMemoryPersistor()
+
+	Add("Test Task", mp)
+	Add("Test Task 2", mp)
+	Add("Test Task 3", mp)
+	Close(1, mp)
+	Close(2, mp)
+	ReOpen(1, mp)
 	task := getTaskByFriendlyId(1)
 	assert.Equal(t, Open, task.Status)
 	task = getTaskByFriendlyId(2)
@@ -66,11 +83,12 @@ func TestReopenTask(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	PersistData = false
-	Add("Test Task")
-	Add("Test Task 2")
-	Add("Test Task 3")
-	Delete(1)
+	mp := NewMemoryPersistor()
+
+	Add("Test Task", mp)
+	Add("Test Task 2", mp)
+	Add("Test Task 3", mp)
+	Delete(1, mp)
 	assert.Equal(t, 2, len(Tasks))
 	for _, task := range Tasks {
 		assert.NotEqual(t, 1, task.FriendlyId)

@@ -22,7 +22,9 @@ var closeCmd = &cobra.Command{
 			fmt.Println("Please provide a valid task id")
 			return
 		}
-		task.Close(id)
+		tp := task.NewFileSystemPersistor()
+
+		task.Close(id, tp)
 	},
 }
 
