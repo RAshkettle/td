@@ -10,6 +10,8 @@ import (
 	"github.com/google/uuid"
 )
 
+var PersistData bool = true
+
 type Status int
 
 func (s Status) String() string {
@@ -95,6 +97,9 @@ func List() {
 }
 
 func getSavedTasks() {
+	if !PersistData {
+		return
+	}
 	if !checkFileExists(getFileLocation()) {
 		// The file doesn't exist, return an empty map
 		Tasks = make(map[uuid.UUID]Task)
@@ -123,6 +128,10 @@ func getSavedTasks() {
 }
 
 func saveTasks() {
+	if !PersistData {
+		return
+	}
+
 	jsonData, err := json.MarshalIndent(Tasks, "", "    ")
 	if err != nil {
 		panic(err)
